@@ -1,3 +1,14 @@
+# Resources/Information
++ For the AI module
+	+ [ChatterBot; easily trainable and deployable](https://github.com/gunthercox/ChatterBot)
+	+ [ConversationAI repositories](https://github.com/conversationai)
+	+ [AI chatbot framework](https://github.com/alfredfrancis/ai-chatbot-framework)
+	+ [ConversationAI API example](https://github.com/watson-developer-cloud/conversation-simple)
++ For the ML module
+	+ [Skip-thoughts encoder](https://github.com/ryankiros/skip-thoughts)
+	+ [Skip-thoughts in Tensorflow](https://github.com/tensorflow/models/tree/master/skip_thoughts)
+	+ []
+
 # Inspiration
 > Catharsis – n., the discharge of extreme, often negative emotion
 
