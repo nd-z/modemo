@@ -27,10 +27,14 @@ TBD: an overarching diagram of the project components
 + TBD
 
 ## Frontend Components
-+ Facebook login -> React frontend
++ Facebook login API -> React frontend
 + API to dictate communication between frontend/backend
 
 ## Backend Components
++ Facebook API handler to pull personal data for classification, namely
+	+ liked posts/pages
+	+ personal posts
+	+ TBD
 + Skip-thought sentiment classification module
 + AI module for heuristic-based conversation
 + Webcrawler to find and classify personal user data
