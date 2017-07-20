@@ -22,15 +22,15 @@ Two main ideas utilizing skip-thoughts:
 TBD: an overarching diagram of the project components
 
 ## Software Used
-+ Python 2.7
-+ Theano 0.7+
-+ NumPy
-+ SciPy
-+ scikit-learn
-+ NLTK 3
-+ Keras
-+ genism
-+ BeautifulSoup
++ For the ML module:
+	+ Python 2.7
+	+ Theano 0.7+
+	+ NumPy
+	+ SciPy
+	+ scikit-learn
+	+ NLTK 3
+	+ Keras
+	+ genism
 + TBD
 
 ## Frontend Components
