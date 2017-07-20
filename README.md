@@ -34,8 +34,11 @@ TBD: an overarching diagram of the project components
 + TBD
 
 ## Frontend Components
-+ Facebook login API -> React frontend
-+ API to dictate communication between frontend/backend
++ React frontend
+	+ Possible use of Facebook API?
++ API (using Apiary) to dictate communication between frontend/backend
++ For the Youtube idea, a convenient way for the user to get info from a comment section
++ For the article idea, a convenient way for the user to get info about the article
 
 ## Backend Components
 + Facebook API handler to pull personal data for classification, namely
