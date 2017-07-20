@@ -1,5 +1,5 @@
 # Resources/Information
-+ For the AI module
++ For the AI module (we actually probably don't need this anymore)
 	+ [ChatterBot; easily trainable and deployable](https://github.com/gunthercox/ChatterBot)
 	+ [ConversationAI repositories](https://github.com/conversationai)
 	+ [AI chatbot framework](https://github.com/alfredfrancis/ai-chatbot-framework)
@@ -7,20 +7,16 @@
 + For the ML module
 	+ [Skip-thoughts encoder](https://github.com/ryankiros/skip-thoughts)
 	+ [Skip-thoughts in Tensorflow](https://github.com/tensorflow/models/tree/master/skip_thoughts)
-	+ []
++ For the Fb API handler (if necessary)
+	+ [Extract sorted comments from a post](https://developers.facebook.com/docs/graph-api/reference/v2.10/object/comments)
 
 # Inspiration
-> Catharsis – n., the discharge of extreme, often negative emotion
-
-People feel a wide range of emotions, with extreme emotions like excitement or misery being just as common as mellow emotions like boredom or uneasiness.
-
-Sometimes you just need to get your thoughts out. You just need to vent, get everything out there for only you to see.
-
-The motivation for this project comes from combining two words:
-+ modulate – n., exert a modifying or controlling influence on
-+ emotion – n., a natural state of mind deriving from mood
-
-In short, modemo hopes to serve as a helpful, neutral medium through which you can discharge your emotions without harm or insecurity. It does not serve to replace human conversation, but to aid where human conversation cannot.
+Two main ideas utilizing skip-thoughts:
++ Can offer more precise analytics on a given social platform's followers
+	+ e.g. Youtube channel can break down the sentiments of their followers per video
++ Can detect emotion (and perhaps bias with some modification) in political articles where there ought to be none
+	+ Bonus: Baseline functionality would be to detect when an article is using rage politics to sway opinion
++ More ideas?
 
 # Project Overview
 TBD: an overarching diagram of the project components
@@ -47,6 +43,5 @@ TBD: an overarching diagram of the project components
 	+ personal posts
 	+ TBD
 + Skip-thought sentiment classification module
-+ AI module for heuristic-based conversation
 + Webcrawler to find and classify personal user data
 + Django and PostgreSQL DB to store user data for personalized conversation
