@@ -1,9 +1,9 @@
+![mōdemo](https://i.imgur.com/D8VSbIG.png)
+
+# Project Overview
+![Project Overview](https://i.imgur.com/p5ALuCd.png)
+
 # Resources/Information
-+ For the AI module (we actually probably don't need this anymore)
-	+ [ChatterBot; easily trainable and deployable](https://github.com/gunthercox/ChatterBot)
-	+ [ConversationAI repositories](https://github.com/conversationai)
-	+ [AI chatbot framework](https://github.com/alfredfrancis/ai-chatbot-framework)
-	+ [ConversationAI API example](https://github.com/watson-developer-cloud/conversation-simple)
 + For the ML module
 	+ [Skip-thoughts encoder](https://github.com/ryankiros/skip-thoughts)
 	+ [Skip-thoughts in Tensorflow](https://github.com/tensorflow/models/tree/master/skip_thoughts)
@@ -17,9 +17,6 @@ Two main ideas utilizing skip-thoughts:
 + Can detect emotion (and perhaps bias with some modification) in political articles where there ought to be none
 	+ Bonus: Baseline functionality would be to detect when an article is using rage politics to sway opinion
 + More ideas?
-
-# Project Overview
-TBD: an overarching diagram of the project components
 
 ## Software Used
 + For the ML module:
@@ -35,16 +32,17 @@ TBD: an overarching diagram of the project components
 
 ## Frontend Components
 + React frontend
-	+ Possible use of Facebook API?
+	+ Facebook API login for personalized analysis
+	+ No login for general-purpose bias detection
 + API (using Apiary) to dictate communication between frontend/backend
-+ For the Youtube idea, a convenient way for the user to get info from a comment section
-+ For the article idea, a convenient way for the user to get info about the article
 
 ## Backend Components
-+ Facebook API handler to pull personal data for classification, namely
++ Backend handler for bridging communication between other backend modules
++ Skip-thought sentiment classification module
++ Facebook crawler to grab personal user content for bias analysis
 	+ liked posts/pages
 	+ personal posts
 	+ TBD
-+ Skip-thought sentiment classification module
-+ Webcrawler to find and classify personal user data
-+ Django and PostgreSQL DB to store user data for personalized conversation
++ Article crawler to grab content for bias analysis in general usage
++ Optional: Django/PostgreSQL to store/compare FB user data from each times that they log in?
+	+ Would be a cool way to see how much bias you're getting recently vs. last time you checked
