@@ -17,11 +17,9 @@ function python_check() {
 
 echo -e "${GREEN}Installing ML Dependencies...${BLACK}"
 pip install --upgrade pip
-pip install --upgrade theano
-pip install --upgrade sklearn
 pip install --upgrade scipy
 pip install --upgrade numpy
 pip install --upgrade keras
 pip install --upgrade nltk
 pip install --upgrade gensim
-
+pip install --upgrade vaderSentiment
