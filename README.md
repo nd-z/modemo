@@ -16,7 +16,7 @@ Two main ideas utilizing skip-thoughts:
 	+ e.g. Youtube channel can break down the sentiments of their followers per video
 + Can detect emotion (and perhaps bias with some modification) in political articles where there ought to be none
 	+ Bonus: Baseline functionality would be to detect when an article is using rage politics to sway opinion
-+ More ideas?
++ More ideas? -Always
 
 ## Software Used
 + For the ML module:
