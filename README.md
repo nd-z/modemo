@@ -4,9 +4,8 @@
 ![Project Overview](https://i.imgur.com/p5ALuCd.png)
 
 # Resources/Information
-+ For the ML module
-	+ [Skip-thoughts encoder](https://github.com/ryankiros/skip-thoughts)
-	+ [Skip-thoughts in Tensorflow](https://github.com/tensorflow/models/tree/master/skip_thoughts)
++ For the NLP module
+	+ [Sentiment Analyzer](https://github.com/cjhutto/vaderSentiment)
 + For the Fb API handler (if necessary)
 	+ [Extract sorted comments from a post](https://developers.facebook.com/docs/graph-api/reference/v2.10/object/comments)
 
