@@ -14,6 +14,13 @@ from keras.optimizers import Adam
 
 
 def evaluate(encoder, seed=1234, evaltest=False, loc='./data/'):
+
+    # TODO before use, download the SICK dataset and put into a ./data/ folder
+    # in the same directory as eval_sick
+
+    # goal is to only run this once; then we can pickle the thing and
+    # transfer the test code to our main code
+
     """
     Run experiment
     """
@@ -42,6 +49,8 @@ def evaluate(encoder, seed=1234, evaltest=False, loc='./data/'):
 
     print 'Training...'
     bestlrmodel = train_model(lrmodel, trainF, trainY, devF, devY, scores[1])
+
+    # TODO pickle this for later use
 
     if evaltest:
         print 'Computing test skipthoughts...'
