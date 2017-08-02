@@ -7,6 +7,7 @@ import os.path
 import scipy.spatial.distance as sd
 from skip_thoughts import configuration
 from skip_thoughts import encoder_manager
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import cPickle
 import time
 
@@ -40,14 +41,16 @@ class BiasAnalyzer(object):
 		CHECKPOINT_PATH = "/Users/az/Desktop/projects/modemo/backend/modules/tf/skip_thoughts/pretrained/skip_thoughts_uni_2017_02_02/model.ckpt-501424"
 
 		self.encoder.load_model(configuration.model_config(), vocabulary_file=VOCAB_FILE, embedding_matrix_file=EMBEDDING_MATRIX_FILE, checkpoint_path=CHECKPOINT_PATH)
+
+		self.sentiment = SentimentIntensityAnalyzer()
 		#f.close()
 
 	def paragraph_bias(self, sentences):
-		# TODO for each sentence, compute the evalsick score
-		# and then find its most semantically similar biased sentence
 
+		# TODO compute aggregate bias score for the whole paragraph
+		
 		for sentence in sentences:
-			print(sentence)
+			#print(sentence)
 
 			temp = self.data
 			self.data = [sentence]
@@ -58,12 +61,23 @@ class BiasAnalyzer(object):
 			self.data_encodings = self.encoder.encode(self.data)
 
 			# find 5 NN with their NN scores and compute vectors for them as well
-			results = self.get_nn(0)
-			print(results)
 			# for each of the sentences in results, get the one with
 			# the best semantic similarity
+			results = self.get_largest_nn(0)
+			#print(results)
+
+			# get compound sentiment score
+			sentiment_score = self.sentiment.polarity_scores(sentence)['compound']
 
 			# then use the bias_dict to get its political leaning
+			bias_score = self.bias_dict[results[0]]
+
+			# final political bias vector:
+			bias_vec = [sentiment_score, results[1], bias_score]
+
+			print(sentence, 'has a bias vector of:')
+			print(bias_vec) 
+
 			# and do some math
 
 			# take the NN with the highest yhat val and multiply its NN score
@@ -78,53 +92,23 @@ class BiasAnalyzer(object):
 			# after we're done, reset self.data to its original value
 			self.data = temp
 
-		# TODO after implementing and testing this, try integrating
-		# nearest neighbors as well
 
-	#given a sentence, evaluate its semantic similarity with each
-	# key in self.bias_dict, and return the bias_dict sentence with
-	# the highest similarity score
-	# TODO this relied on kiros implementation; modify for current scheme
-	'''
-	def evalsick(self, sentence):
-		highest_yhat = 0
-		ret_sentence = None
-
-		for bias_sentence in bias_dict.keys():
-			print('Computing test skipthoughts...')
-			sentence_vec = self.encoder.encode(sentence)
-			bias_sentence_vec = self.encoder.encode(bias_sentence)
-
-			print('Computing feature combinations...')
-			testF = np.c_[np.abs(sentence_vec - bias_sentence_vec), sentence_vec * bias_sentence_vec]
-
-			print('Evaluating...')
-			r = np.arange(1,6)
-			yhat = np.dot(bestlrmodel.predict_proba(testF, verbose=2), r)
-			pr = pearsonr(yhat, scores[2])[0]
-			sr = spearmanr(yhat, scores[2])[0]
-			se = mse(yhat, scores[2])
-			# print 'Test Pearson: ' + str(pr)
-			# print 'Test Spearman: ' + str(sr)
-			# print 'Test MSE: ' + str(se)
-
-			if yhat > highest_yhat:
-				highest_yhat = yhat
-				ret_sentence = bias_sentence
-
-		return ret_sentence, highest_yhat
-	'''
-
-	def get_nn(self, ind, num=5):
+	# gets the 5 NN and returns the one with the largest semantic similarity
+	def get_largest_nn(self, ind, num=5):
   		encoding = self.data_encodings[ind]
   		scores = sd.cdist([encoding], self.data_encodings, "cosine")[0]
   		sorted_ids = np.argsort(scores)
-  		print("Sentence:")
-  		print("", self.data[ind])
-  		print("\nNearest neighbors:")
+  		#print("Sentence:")
+  		#print("", self.data[ind])
+  		#print("\nNearest neighbors:")
   		ret = {}
   		for i in range(1, num + 1):
-			print(" %d. %s (%.3f)" % (i, self.data[sorted_ids[i]], scores[sorted_ids[i]]))
-			ret[self.data[sorted_ids[i]]] = scores[sorted_ids[i]]
+			#print(" %d. %s (%.3f)" % (i, self.data[sorted_ids[i]], scores[sorted_ids[i]]))
+			ret[scores[sorted_ids[i]]] = self.data[sorted_ids[i]]
 
-		return ret
+		ret_key = sorted(ret.keys())
+		key = ret_key[len(ret_key) - 1]
+
+		#this is a list containing the sentence and its semantic similarity
+		# key should be the largest value
+		return [ret[key], key]
