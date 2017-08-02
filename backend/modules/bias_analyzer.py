@@ -1,4 +1,15 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+import numpy as np
+import os.path
+import sys
+import scipy.spatial.distance as sd
 import cPickle
+
+#sys.path.append(".")
+import tf.skip_thoughts.configuration
+import tf.skip_thoughts.encoder_manager
 
 class BiasAnalyzer(object):
 	def __init__(self):
@@ -20,6 +31,7 @@ class BiasAnalyzer(object):
 		# and then find its most semantically similar biased sentence
 
 		for sentence in sentences:
+			print(sentence)
 			# process into a vector
 			# find 5 NN with their NN scores and compute vectors for them as well
 			# for each of the vectors computed above, find corresponding
@@ -42,25 +54,25 @@ class BiasAnalyzer(object):
 		ret_sentence = None
 
 		for bias_sentence in bias_dict.keys():
-			print 'Computing test skipthoughts...'
-	        sentence_vec = self.encoder.encode(sentence, verbose=False, use_eos=True)
-	        bias_sentence_vec = self.encoder.encode(bias_sentence, verbose=False, use_eos=True)
+			print('Computing test skipthoughts...')
+			sentence_vec = self.encoder.encode(sentence, verbose=False, use_eos=True)
+			bias_sentence_vec = self.encoder.encode(bias_sentence, verbose=False, use_eos=True)
 
-	        print 'Computing feature combinations...'
-	        testF = np.c_[np.abs(sentence_vec - bias_sentence_vec), sentence_vec * bias_sentence_vec]
+			print('Computing feature combinations...')
+			testF = np.c_[np.abs(sentence_vec - bias_sentence_vec), sentence_vec * bias_sentence_vec]
 
-	        print 'Evaluating...'
-	        r = np.arange(1,6)
-	        yhat = np.dot(bestlrmodel.predict_proba(testF, verbose=2), r)
-	        pr = pearsonr(yhat, scores[2])[0]
-	        sr = spearmanr(yhat, scores[2])[0]
-	        se = mse(yhat, scores[2])
-	        print 'Test Pearson: ' + str(pr)
-	        print 'Test Spearman: ' + str(sr)
-	        print 'Test MSE: ' + str(se)
+			print('Evaluating...')
+			r = np.arange(1,6)
+			yhat = np.dot(bestlrmodel.predict_proba(testF, verbose=2), r)
+			pr = pearsonr(yhat, scores[2])[0]
+			sr = spearmanr(yhat, scores[2])[0]
+			se = mse(yhat, scores[2])
+			# print 'Test Pearson: ' + str(pr)
+			# print 'Test Spearman: ' + str(sr)
+			# print 'Test MSE: ' + str(se)
 
-	        if yhat > highest_yhat:
-	        	highest_yhat = yhat
-	        	ret_sentence = bias_sentence
+			if yhat > highest_yhat:
+				highest_yhat = yhat
+				ret_sentence = bias_sentence
 
-	    return ret_sentence, highest_yhat
+		return ret_sentence, highest_yhat
