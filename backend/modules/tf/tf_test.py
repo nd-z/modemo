@@ -24,9 +24,9 @@ CHECKPOINT_PATH = "/Users/az/Desktop/projects/modemo/backend/modules/tf/skip_tho
 # all loaded models.
 encoder = encoder_manager.EncoderManager()
 encoder.load_model(configuration.model_config(),
-                   vocabulary_file=VOCAB_FILE,
-                   embedding_matrix_file=EMBEDDING_MATRIX_FILE,
-                   checkpoint_path=CHECKPOINT_PATH)
+				   vocabulary_file=VOCAB_FILE,
+				   embedding_matrix_file=EMBEDDING_MATRIX_FILE,
+				   checkpoint_path=CHECKPOINT_PATH)
 
 data = ['Donald Trump is a boorish, stupid man.', 'He is unfit to be President, and too dumb to be in the White House.']
 
@@ -56,8 +56,8 @@ def get_nn(ind, num=5):
   print("", data[ind])
   print("\nNearest neighbors:")
   for i in range(1, num + 1):
-    print(" %d. %s (%.3f)" %
-          (i, data[sorted_ids[i]], scores[sorted_ids[i]]))
+	print(" %d. %s (%.3f)" %
+		  (i, data[sorted_ids[i]], scores[sorted_ids[i]]))
 
 # Compute nearest neighbors of the first sentence in the dataset.
 get_nn(0)
