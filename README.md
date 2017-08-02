@@ -24,8 +24,10 @@ Two main ideas utilizing skip-thoughts:
 	+ SciPy
 	+ scikit-learn
 	+ NLTK 3
+		+ will need to download some packages via nltk.download() in ipython
 	+ Keras
 	+ genism
+	+ dask
 + TBD
 
 ## Frontend Components
@@ -38,9 +40,9 @@ Two main ideas utilizing skip-thoughts:
 + Backend handler for bridging communication between other backend modules
 + Skip-thought sentiment classification module
 	+ Theory: Political bias of a sentence is a "vector" with magnitude (degree of bias) and direction (favored side of bias). Currently, there are no popular tools for quantifying political bias, so our way of computing this vector is broken down as follows:
-		+ Magnitude is a compound score derived from sentiment analysis.
-		+ Direction is a similarity score computed from semantic similarity scoring with skip-thoughts.
-			+ e.g. [-0.8, -0.1] indicates a strong negative-emotion sentence with a bias in favor of a conservative viewpoint.
+		+ Magnitude is a compound score derived from sentiment analysis, combined with the semantic similary score of a liberal or conservative sentence.
+		+ Direction is indicated by 1 or -1.
+			+ e.g. [-0.8, 0.45, -1] indicates a strong negative-emotion sentence with a conservative bias (bias predicted at 45%, the -1 indicates conservative; 1 for liberal).
 		+ The resulting vector can be scaled (multiplied) by a weight (i.e. length of total paragraph) and combined with other political bias vectors to find the net bias of an article.
 + Facebook crawler to grab personal user content for bias analysis
 	+ liked posts/pages
