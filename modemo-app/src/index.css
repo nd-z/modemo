@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  justify-content: center;
+  align-items: center;
+}
+
+.modemo-logo {
+  width: 10%;
+  height: 10%;
+}
+
+.modemo-title {
+  color: white;
+  font-size: 40px;
+  font-family: "Trebuchet MS";
+  padding-left: 20px;
+}
