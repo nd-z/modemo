@@ -35,8 +35,8 @@ from __future__ import print_function
 
 import tensorflow as tf
 
-from tf.skip_thoughts.ops import gru_cell
-from tf.skip_thoughts.ops import input_ops
+from skip_thoughts.ops import gru_cell
+from skip_thoughts.ops import input_ops
 
 
 def random_orthonormal_initializer(shape, dtype=tf.float32,

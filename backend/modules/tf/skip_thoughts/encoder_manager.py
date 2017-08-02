@@ -36,7 +36,7 @@ import collections
 import numpy as np
 import tensorflow as tf
 
-import tf.skip_thoughts.skip_thoughts_encoder
+from skip_thoughts import skip_thoughts_encoder
 
 
 class EncoderManager(object):
