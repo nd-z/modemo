@@ -47,8 +47,12 @@ class BiasAnalyzer(object):
 
 	def paragraph_bias(self, sentences):
 
-		# TODO compute aggregate bias score for the whole paragraph
-		
+		# compute aggregate bias score for the whole paragraph
+		# format is [lib_score, con_score, neu_score]
+		# lib_score and con_score are similarly aggregated, while
+		# neu_score is a count of how many neutral sentences are found
+		aggregate_score = [0, 0, 0]
+
 		for sentence in sentences:
 			#print(sentence)
 
@@ -76,21 +80,40 @@ class BiasAnalyzer(object):
 			bias_vec = [sentiment_score, results[1], bias_score]
 
 			print(sentence, 'has a bias vector of:')
-			print(bias_vec) 
+			print(bias_vec)
 
-			# and do some math
+			# this computes both the bias direction and intensity
+			# ....hopefully lol
 
-			# take the NN with the highest yhat val and multiply its NN score
-			# with the composite sentiment score AND with the dict value of 
-			# its ret_sentence
+			# logic: sentiment multiplied by bias score will give us
+			# the correct actual bias; i.e. if a sentence is scored
+			# similar to a conservative sentence, but is actually negatively
+			# talking about the conservative side, then it should be 
+			# treated as a liberal bias --> neg * neg = pos = liberal
 
-			# now we have the political bias vector, now what?
-			# we could add it to the other vectors in the same paragraph
-			# and then in a different method, compute the aggregate thing
-			# weighted by paragraph length?
+			# multiply by bias_vec[1] because the less similar it is to 
+			# one of our biased sentences, the less we want it to weigh in
+			# the aggregate score
+			bias_intensity = bias_vec[1]*bias_vec[2]
 
+			# we may want to threshold the sentiment score
+			# because if it's only slightly negative, it might just be
+			# due to evaluation inaccuracies
+			if abs(bias_vec[0]) > 0.4:
+				bias_intensity = bias_intensity*bias_vec[0]
+
+			# add to aggregate score
+			if bias_intensity > 0:
+				aggregate_score[0] += bias_intensity
+			elif bias_intensity < 0:
+				aggregate_score[1] += bias_intensity
+			else:
+				aggregate_score[2] += 1
 			# after we're done, reset self.data to its original value
 			self.data = temp
+
+		print(aggregate_score)
+		return aggregate_score
 
 
 	# gets the 5 NN and returns the one with the largest semantic similarity
