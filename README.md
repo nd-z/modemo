@@ -1,4 +1,4 @@
-![mōdemo](https://i.imgur.com/D8VSbIG.png)
+![mōdemo](https://i.imgur.com/1PJuYP3.png)
 
 # Project Overview
 ![Project Overview](https://i.imgur.com/p5ALuCd.png)
