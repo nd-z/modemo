@@ -10,6 +10,8 @@
 	+ [Skip-thoughts (Tensorflow)](https://github.com/tensorflow/models/tree/master/skip_thoughts)
 + For the Fb API handler (if necessary)
 	+ [Extract sorted comments from a post](https://developers.facebook.com/docs/graph-api/reference/v2.10/object/comments)
++ For the Article Crawler
+	+ [Python Goose](https://github.com/grangier/python-goose)
 
 # Inspiration
 Two main ideas utilizing skip-thoughts:
@@ -30,7 +32,8 @@ Two main ideas utilizing skip-thoughts:
 	+ Keras
 	+ genism
 	+ dask
-+ TBD
++ For article crawling
+	+ Goose
 
 ## Frontend Components
 + React frontend
