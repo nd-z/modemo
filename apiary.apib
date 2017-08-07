@@ -3,11 +3,13 @@ HOST: http://polls.apiblueprint.org/
 
 # modemo
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+API for getting bias analysis of Facebook account and/or an article.
 
-## Questions Collection [/questions]
+## Facebook Login [/login]
 
-### List All Questions [GET]
+### Login [GET]
+
+User should be able to log in with their Facebook account; need to decide what information is needed for frontend to process and send to backend.
 
 + Response 200 (application/json)
 
@@ -33,30 +35,20 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             }
         ]
 
-### Create a New Question [POST]
+## Non-Facebook Analysis [/analyze]
+### Analyze Article [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+Given an article link, send to backend server for processing. Server response should be 200 with a ton of information (stats, article sentences mapped to their bias indices)
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "url": https://google.com
         }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
-
-            Location: /questions/2
-
     + Body
 
             {
