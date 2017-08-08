@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+from sklearn.svm import SVC
 import numpy as np
 import os.path
 #import sys
@@ -207,3 +208,10 @@ class BiasAnalyzer(object):
 		#this is a list containing the sentence and its semantic similarity
 		# key should be the largest value
 		return None
+
+	def train_SVM(self):
+		# essentially we will compute sentiment and semantic scores for each sentence in the dataset
+
+		# we know the label, so just add it to the vector of labels; add the [sent, sem] vector to the matrix
+
+		# after the for loop, train the SVM and pickle it
