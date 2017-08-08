@@ -33,6 +33,8 @@ class BiasAnalyzer(object):
 		self.data_encodings = []
 		self.data = self.bias_dict.keys()
 
+		self.blacklist = []
+
 		#f = open('skipthoughts.pkl', 'rb')
 		# right now, we're using a unidirectional skip model;
 		# we can try the bidirectional model later
@@ -46,7 +48,7 @@ class BiasAnalyzer(object):
 		#f.close()
 
 	# @paragraphs is meant to be the output of the article_crawler
-	def get_article_bias(paragraphs):
+	def get_article_bias(self, paragraphs):
 		# for each paragraph, get its bias vector
 
 		total_bias = [0,0,0]
@@ -56,16 +58,26 @@ class BiasAnalyzer(object):
 			total_length += len(paragraph)
 
 		for paragraph in paragraphs:
-			p_bias = self.paragraph_bias(paragraph)
+			p_bias = self.get_paragraph_bias(paragraph)
 
 			# weight it by proportion to total length
 			# this is tricky because im not sure what to do with the third entry
-			p_bias = float(len(paragraph))/total_length * p_bias
-			total_bias += p_bias
+			scale = float(len(paragraph))/total_length
+			p_bias[0] = scale*p_bias[0]
+			p_bias[1] = scale*p_bias[1]
+			total_bias[0] += p_bias[0]
+			total_bias[1] += p_bias[1]
+			total_bias[2] += p_bias[2]
 
 		return total_bias
 
-	def paragraph_bias(self, sentences):
+	# TODO okay so as it stands it looks like it takes around 5-10 minutes to process one article
+	# that's way way way too long. it's because im re-encoding the same data w/ each sentence
+	# so i think a good optimization would be to see if i can throw all of the sentences in at once
+	# and just compute NN for indicies 0 to len(sentences)-1.
+
+	# actually yeah that is much better lol. do this!!
+	def get_paragraph_bias(self, sentences):
 
 		# compute aggregate bias score for the whole paragraph
 		# format is [lib_score, con_score, neu_score]
@@ -73,21 +85,24 @@ class BiasAnalyzer(object):
 		# neu_score is a count of how many neutral sentences are found
 		aggregate_score = [0, 0, 0]
 
+		temp = list(self.data)
+		self.data = list(sentences)
+
+		self.blacklist = list(sentences)
+		bound = len(self.blacklist)+2
+		print('bound ' + str(bound))
+		self.data.extend(temp)
+
+		self.data_encodings = self.encoder.encode(self.data)
+
+		index = 0
 		for sentence in sentences:
-			#print(sentence)
-
-			temp = self.data
-			self.data = [sentence]
-			self.data.extend(temp)
-			#data.extend(self.bias_dict.keys())
-
-			# process into a vector
-			self.data_encodings = self.encoder.encode(self.data)
-
 			# find 5 NN with their NN scores and compute vectors for them as well
 			# for each of the sentences in results, get the one with
 			# the best semantic similarity
-			results = self.get_largest_nn(0)
+
+			# bound ensures that of the NNs found, at least 1 will not be one of the current sentences we're looking for
+			results = self.get_largest_nn(index,num=bound)
 			#print(results)
 
 			# get compound sentiment score
@@ -148,9 +163,13 @@ class BiasAnalyzer(object):
 				aggregate_score[1] += bias_intensity
 			else:
 				aggregate_score[2] += 1
-			# after we're done, reset self.data to its original value
-			self.data = temp
 
+			index += 1
+
+		# after we're done, reset self.data to its original value
+		self.data = temp
+		self.data_encodings = []
+		self.blacklist = []
 		print(aggregate_score)
 		return aggregate_score
 
@@ -169,8 +188,13 @@ class BiasAnalyzer(object):
 			ret[scores[sorted_ids[i]]] = self.data[sorted_ids[i]]
 
 		ret_key = sorted(ret.keys())
-		key = ret_key[len(ret_key) - 1]
 
+		for key in reversed(ret_key):
+			target = ret[key]
+			if target not in self.blacklist:
+				return [target, key]
+
+		print('IF YOURE HERE, SOMETHING REALLY BAD HAPPENED!!')
 		#this is a list containing the sentence and its semantic similarity
 		# key should be the largest value
-		return [ret[key], key]
+		return None
