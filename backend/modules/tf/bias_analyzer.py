@@ -59,8 +59,11 @@ class BiasAnalyzer(object):
 			p_bias = self.paragraph_bias(paragraph)
 
 			# weight it by proportion to total length
+			# this is tricky because im not sure what to do with the third entry
 			p_bias = float(len(paragraph))/total_length * p_bias
 			total_bias += p_bias
+
+		return total_bias
 
 	def paragraph_bias(self, sentences):
 
@@ -116,8 +119,24 @@ class BiasAnalyzer(object):
 			# we may want to threshold the sentiment score
 			# because if it's only slightly negative, it might just be
 			# due to evaluation inaccuracies
-			if abs(bias_vec[0]) > 0.4:
-				bias_intensity = bias_intensity*bias_vec[0]
+
+			# this value puts a maximum cap on how much the sentiment score can
+			# influence the bias score's magnitude
+			# i.e. sentiment value can reduce the weight of the bias score by 
+			# at most 2/3
+			magnitude_cap = 0.33
+
+			# this value is a threshold for determining when a sentiment score
+			# is intense enough to influence the bias direction
+			sentiment_thresh = 0.4
+
+			if abs(bias_vec[0]) > magnitude_cap:
+				if abs(bias_vec[0]) > sentiment_thresh:
+					bias_intensity = bias_intensity*bias_vec[0]
+				else:
+					bias_intensity = bias_intensity*abs(bias_vec[0])
+
+			
 
 			# add to aggregate score
 			if bias_intensity > 0:
