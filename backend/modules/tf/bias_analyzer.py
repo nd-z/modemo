@@ -136,7 +136,10 @@ class BiasAnalyzer(object):
 				else:
 					bias_intensity = bias_intensity*abs(bias_vec[0])
 
-			
+			# rationale: we dont want a sentence's bias index to be drastically reduced just because
+			# there isnt much sentiment detected. likewise, we dont want its bias sign flipped just
+			# because it's 33% positive or negative, so the threshold for flipping is raised to ensure
+			# that only strongly toned sentiments have an impact on the direction of the bias
 
 			# add to aggregate score
 			if bias_intensity > 0:
