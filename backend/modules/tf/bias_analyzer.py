@@ -145,16 +145,25 @@ class BiasAnalyzer(object):
 			# is intense enough to influence the bias direction
 			sentiment_thresh = 0.4
 
-			if abs(bias_vec[0]) > magnitude_cap:
-				if abs(bias_vec[0]) > sentiment_thresh:
-					bias_intensity = bias_intensity*bias_vec[0]
-				else:
-					bias_intensity = bias_intensity*abs(bias_vec[0])
+			# this value is a threshold that basically says: if the sentence is REALLY
+			# similar to one of our dataset sentences, then ignore what the sentiment
+			# score is and just continue
+			semantic_thresh = 0.75
+
+			if abs(bias_vec[1]) < semantic_thresh:
+				if abs(bias_vec[0]) > magnitude_cap:
+					if abs(bias_vec[0]) > sentiment_thresh:
+						bias_intensity = bias_intensity*bias_vec[0]
+					else:
+						bias_intensity = bias_intensity*abs(bias_vec[0])
 
 			# rationale: we dont want a sentence's bias index to be drastically reduced just because
 			# there isnt much sentiment detected. likewise, we dont want its bias sign flipped just
 			# because it's 33% positive or negative, so the threshold for flipping is raised to ensure
 			# that only strongly toned sentiments have an impact on the direction of the bias
+
+			# however, if a sentence is deemed to be extremely similar (semantically) to a dataset sentence
+			# then completely ignore the sentiment score and move on
 
 			# add to aggregate score
 			if bias_intensity > 0:

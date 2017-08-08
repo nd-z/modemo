@@ -9,7 +9,8 @@ print('if this breaks, remember to add the tf folder to PYTHONPATH and try again
 
 #data = ['Donald Trump is a boorish, stupid man.', 'He is unfit to be President, and too dumb to be in the White House.', 'The Democrats are playing a childish game, and would rather see the current healthcare plan continue to cripple America than to pass a new bill.', 'President Trump embraced a proposal on Wednesday to slash legal immigration to the United States in half within a decade by sharply curtailing the ability of American citizens and legal residents to bring family members into the country.', '']
 
-url = 'https://www.nytimes.com/2017/08/02/us/politics/trump-immigration.html'
+#url = 'https://www.nytimes.com/2017/08/02/us/politics/trump-immigration.html'
+url='http://www.foxnews.com/politics/2017/08/07/democrats-divided-over-whether-party-should-welcome-pro-life-candidates.html'
 crawler = ArticleCrawler()
 
 paragraphs = crawler.url_content(url)
