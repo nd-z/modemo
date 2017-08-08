@@ -45,6 +45,23 @@ class BiasAnalyzer(object):
 		self.sentiment = SentimentIntensityAnalyzer()
 		#f.close()
 
+	# @paragraphs is meant to be the output of the article_crawler
+	def get_article_bias(paragraphs):
+		# for each paragraph, get its bias vector
+
+		total_bias = [0,0,0]
+		total_length = 0
+
+		for paragraph in paragraphs:
+			total_length += len(paragraph)
+
+		for paragraph in paragraphs:
+			p_bias = self.paragraph_bias(paragraph)
+
+			# weight it by proportion to total length
+			p_bias = float(len(paragraph))/total_length * p_bias
+			total_bias += p_bias
+
 	def paragraph_bias(self, sentences):
 
 		# compute aggregate bias score for the whole paragraph
