@@ -61,12 +61,13 @@ class BiasAnalyzer(object):
 
 		total_bias = [0,0,0]
 		total_length = 0
+		total_dict = dict()
 
 		for paragraph in paragraphs:
 			total_length += len(paragraph)
 
 		for paragraph in paragraphs:
-			p_bias = self.get_paragraph_bias(paragraph)
+			p_bias, p_dict = self.get_paragraph_bias(paragraph)
 
 			# weight it by proportion to total length
 			# this is tricky because im not sure what to do with the third entry
@@ -77,7 +78,12 @@ class BiasAnalyzer(object):
 			total_bias[1] += p_bias[1]
 			total_bias[2] += p_bias[2]
 
-		return total_bias
+			total_dict.update(p_dict)
+
+		# so far, total_bias is [average lib bias per sentence, average cons bias per sentence, num neu sentences]
+		# i think it should also return a dictionary of each sentence mapped to its bias vec
+
+		return total_bias, total_dict
 
 	def get_paragraph_bias(self, sentences):
 
@@ -96,6 +102,8 @@ class BiasAnalyzer(object):
 		self.data.extend(temp)
 
 		self.data_encodings = self.encoder.encode(self.data)
+
+		ret_dict = dict();
 
 		index = 0
 		for sentence in sentences:
@@ -190,6 +198,9 @@ class BiasAnalyzer(object):
 			else:
 				aggregate_score[2] += 1
 
+			# map sentence to its bias intensity
+			ret_dict[sentence] = bias_intensity
+
 			index += 1
 
 		# after we're done, reset self.data to its original value
@@ -197,7 +208,7 @@ class BiasAnalyzer(object):
 		self.data_encodings = []
 		self.blacklist = []
 		print(aggregate_score)
-		return aggregate_score
+		return aggregate_score, ret_dict
 
 	################################################################
 	#

@@ -29,11 +29,12 @@ print(str(time.time() - start_time))
 start_time = time.time()
 
 ############## TESTING ARTICLE ANALYSIS ############
-totalbias = analyzer.get_article_bias(nyt_data)
+totalbias, total_dict = analyzer.get_article_bias(nyt_data)
 print('done')
 print(str(time.time() - start_time))
 print('total bias index for the entire article')
 print(totalbias)
+print(total_dict)
 
 ############# SVM TRAINING ##############
 '''
