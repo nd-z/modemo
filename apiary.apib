@@ -7,9 +7,16 @@ API for getting bias analysis of Facebook account and/or an article.
 
 ## Facebook Login [/login]
 
-### Login [GET]
+### Login [POST]
 
 User should be able to log in with their Facebook account; need to decide what information is needed for frontend to process and send to backend.
+
++ Request (application/json)
+
+        {
+            "user_id": 99999,
+            "token": "ABCDEFG12345"
+        }
 
 + Response 200 (application/json)
 
