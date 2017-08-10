@@ -47,6 +47,9 @@ User should be able to log in with their Facebook account; need to decide what i
 
 Given an article link, send to backend server for processing. Server response should be 200 with a ton of information (stats, article sentences mapped to their bias indices)
 
+
+Still unsure what to do with the neutral field, statistics-wise.
+
 + Request (application/json)
 
         {
@@ -57,23 +60,13 @@ Given an article link, send to backend server for processing. Server response sh
 
     + Headers
     + Body
-
+    
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "liberal": 0.5,
+                "conservative": -0.5,
+                "neutral": 20,
+                "mappings": 
                     {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
+                        "sentence1": "blah blah politics"
                     }
-                ]
             }
