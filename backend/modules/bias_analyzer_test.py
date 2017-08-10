@@ -8,8 +8,8 @@ import cPickle
 print('if this breaks, remember to add the tf folder to PYTHONPATH and try again')
 
 ################ GET WEB CONTENT ###################
-#url = 'https://www.nytimes.com/2017/08/02/us/politics/trump-immigration.html'
-url='http://www.foxnews.com/politics/2017/08/07/democrats-divided-over-whether-party-should-welcome-pro-life-candidates.html'
+url = 'https://www.nytimes.com/2017/08/02/us/politics/trump-immigration.html'
+#url='http://www.foxnews.com/politics/2017/08/07/democrats-divided-over-whether-party-should-welcome-pro-life-candidates.html'
 crawler = ArticleCrawler()
 
 paragraphs = crawler.url_content(url)
@@ -22,14 +22,14 @@ print(nyt_data)
 print('initializing bias analyzer')
 start_time = time.time()
 #analyzer = BiasAnalyzer()
-analyzer = BiasAnalyzer(withSVM=True)
+analyzer = BiasAnalyzer()
 print('done')
 print(str(time.time() - start_time))
 
 start_time = time.time()
 
 ############## TESTING ARTICLE ANALYSIS ############
-totalbias = analyzer.get_article_bias_with_SVM(nyt_data)
+totalbias = analyzer.get_article_bias(nyt_data)
 print('done')
 print(str(time.time() - start_time))
 print('total bias index for the entire article')

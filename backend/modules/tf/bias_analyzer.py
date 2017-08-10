@@ -152,12 +152,27 @@ class BiasAnalyzer(object):
 			# score is and just continue
 			semantic_thresh = 0.75
 
+			'''
 			if abs(bias_vec[1]) < semantic_thresh:
 				if abs(bias_vec[0]) > magnitude_cap:
 					if abs(bias_vec[0]) > sentiment_thresh:
 						bias_intensity = bias_intensity*bias_vec[0]
 					else:
 						bias_intensity = bias_intensity*abs(bias_vec[0])
+			'''
+			if abs(bias_vec[1]) < semantic_thresh:
+				if abs(bias_vec[0]) < magnitude_cap:
+					if bias_vec[0] < 0:
+						bias_vec[0] = -0.33
+					else:
+						bias_vec[0] = 0.33
+
+				if abs(bias_vec[0]) > sentiment_thresh:
+					bias_intensity = bias_intensity*bias_vec[0]
+				else:
+					bias_intensity = bias_intensity*abs(bias_vec[0])
+
+
 
 			# rationale: we dont want a sentence's bias index to be drastically reduced just because
 			# there isnt much sentiment detected. likewise, we dont want its bias sign flipped just
