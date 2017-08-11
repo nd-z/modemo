@@ -23,3 +23,12 @@ pip install --upgrade keras
 pip install --upgrade nltk
 pip install --upgrade gensim
 pip install --upgrade vaderSentiment
+
+echo -e "${GREEN}Installing Django Dependencies...${BLACK}"
+pip install --upgrade Django
+pip install --upgrade Djangorestframework
+pip install --upgrade Django_facebook
+pip install --upgrade django-cors-headers
+pip install --upgrade Pillow
+pip install --upgrade psycopg2
+pip install --upgrade requests
